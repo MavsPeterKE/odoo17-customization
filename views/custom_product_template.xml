@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_custom_product_template_inherited" model="ir.ui.view">
+            <field name="name">custom.product.template.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options']" position="inside">
+                    <field name="enable_validation_on_po_create" invisible="1"/>
+                    <group name="non_moving" invisible="not enable_validation_on_po_create">
+                        <separator string="Non-Moving Product Settings" colspan="4"/>
+                        <field name="is_non_moving_product"
+                               string="Is Non-Moving"
+                               help="This field shows if the product is currently marked as non-moving. It is automatically updated based on the manual or automatic settings."/>
+                        <field name="non_moving_period_days"
+                               string="Non-Moving Period (Days)"
+                               required="is_non_moving_product==True"
+                               invisible="not is_non_moving_product"
+                               help="Specify the number of days after which a product is considered non-moving if it has not been sold."/>
+                    </group>
+                     <group name="track_stock_clearance" invisible="not enable_validation_on_po_create">
+                        <separator string="Stock Clearance Settings" colspan="4"/>
+                        <field name="track_stock_clearance"
+                               help="If enabled, a check will be done to confirm if 50% of the product stock has been cleared"/>
+                        <field name="track_days"
+                               required="track_stock_clearance==True"
+                               invisible="not track_stock_clearance"/>
+                    </group>
+
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
